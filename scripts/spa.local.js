@@ -7,12 +7,15 @@ localLinks.forEach(link => {
         const path = e.target.innerText
         const file = e.target.href.split("#")[1]
         history.pushState({},'',"/"+path)
-        getData(`/docs/${file}.txt`, render)
+        getData({
+            type:"text",
+            url:`/docs/${file}.txt`, 
+            callback: render})
     })
 })
 function render(data){
     const main = document.querySelector("main")
-    main.innerHTML = `<section>${data}</section>`
+    main.innerHTML = `<section class="card m-4 p-3">${data}</section>`
 }
 function notFound(){
     return `
@@ -25,9 +28,10 @@ function notFound(){
         </p>
         `
 }
-function getData(url, callback){
+function getData({url,type, callback}){
     const xhr = new XMLHttpRequest()
     xhr.open("GET", url)
+    xhr.responseType = type ?? "text"
     xhr.addEventListener("readystatechange",()=>{
         if(xhr.readyState == 4){
             if(xhr.status == 200){
@@ -37,5 +41,15 @@ function getData(url, callback){
             }
         }
     })
+    xhr.addEventListener("progress", (e) => {
+        console.log(e.total, e.loaded)
+    })
     xhr.send()
 }
+
+const copyRight = () => {
+    const copy = document.getElementById("copy")
+    copy.innerHTML = `&copy;${new Date().getFullYear()} Todos los derechos reservados`
+
+} 
+copyRight()
