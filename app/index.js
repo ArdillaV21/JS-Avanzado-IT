@@ -1,7 +1,12 @@
-import { getData } from "./async";
+import { getData } from "./async.js";
+import {root, links, brand} from "./variable.js"
+import Nav from "./components/navigation.js";
 
-const showResult = async() =>{
-    const results = await getData("https://jsonplaceholder.typicode.com/users")
-    console.log(results)
-}
-console.log(showResult())
+root.innerHTML += Nav(links,brand)
+
+document.addEventListener('click', (e) => {
+    const tag = e.target.tagName
+    if(tag == "A"){
+        e.preventDefault()
+    }
+})
