@@ -5,8 +5,13 @@ import Nav from "./components/navigation.js";
 root.innerHTML += Nav(links,brand)
 
 document.addEventListener('click', (e) => {
+    e.preventDefault()
     const tag = e.target.tagName
-    if(tag == "A"){
-        e.preventDefault()
+
+    if(tag === "A"){
+
+    }
+    if(tag === "BUTTON"){
+
     }
 })
